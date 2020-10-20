@@ -3,9 +3,9 @@ import pymysql
 from mysql.connector import Error
 
 mydb = mysql.connector.connect(
-    host="localhost",
+    host="172.17.0.3",
     user="root",
-    password="",
+    password="kmzway87saa",
     database="erika"
 )
 

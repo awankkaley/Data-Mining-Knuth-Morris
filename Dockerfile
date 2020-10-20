@@ -5,5 +5,5 @@ EXPOSE 5003
 
 COPY requirements.txt /tmp/
 RUN pip install -r /tmp/requirements.txt
-
+RUN [ "python", "-c", "import nltk; nltk.download('all')" ]
 COPY . /app
