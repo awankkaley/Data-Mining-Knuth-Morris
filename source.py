@@ -2,31 +2,18 @@ import mysql.connector
 import pymysql
 from mysql.connector import Error
 
-mydb = mysql.connector.connect(
-    host="172.17.0.3",
-    user="root",
-    password="kmzway87saa",
-    database="erika"
-)
-
 
 def alldata():
+    mydb = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="",
+        database="erika"
+    )
     mycursor = mydb.cursor()
 
     mycursor.execute("SELECT id_tumbuhan, CONCAT("
                      " penggunaan,' ',pemerian) AS data "
-                     "FROM tanaman LIMIT 200")
-
-    myresult = mycursor.fetchall()
-
-    return myresult
-
-
-def alldataNama():
-    mycursor = mydb.cursor()
-
-    mycursor.execute("SELECT id_tumbuhan, CONCAT("
-                     "nama,' ',nama_latin,' ',nama_daerah,' ',keluarga) AS data "
                      "FROM tanaman")
 
     myresult = mycursor.fetchall()
@@ -34,7 +21,46 @@ def alldataNama():
     return myresult
 
 
+def all():
+    mydb = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="",
+        database="erika"
+    )
+    mycursor = mydb.cursor(dictionary=True)
+
+    mycursor.execute("SELECT * FROM tanaman ORDER BY nama ASC")
+
+    myresult = mycursor.fetchall()
+
+    return myresult
+
+
+def persamaan(var):
+    mydb = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="",
+        database="erika"
+    )
+    mycursor = mydb.cursor()
+    format_strings = ','.join(['%s'] * len(var))
+    mycursor.execute(
+        "SELECT persamaan FROM persamaan WHERE nama_penyakit IN (%s) " % format_strings , tuple(var))
+
+    myresult = mycursor.fetchall()
+
+    return myresult
+
+
 def alldataZat():
+    mydb = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="",
+        database="erika"
+    )
     mycursor = mydb.cursor()
 
     mycursor.execute("SELECT id_tumbuhan, CONCAT(zat_berkhasit) AS data FROM tanaman")
@@ -46,13 +72,23 @@ def alldataZat():
 
 def byid(id):
     try:
+        mydb = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="erika"
+        )
         format_strings = ','.join(['%s'] * len(id))
         mycursor = mydb.cursor(dictionary=True)
-        data = str(tuple(id)).replace("(", "").replace(")", "")
-        mycursor.execute(
-            "SELECT tanaman.*  FROM tanaman WHERE id_tumbuhan IN (%s) ORDER BY field(id_tumbuhan,{})".format(
-                data) % format_strings,
-            (tuple(id)))
+        if len(id) == 1:
+            mycursor.execute(
+                "SELECT tanaman.*  FROM tanaman WHERE id_tumbuhan = %s", tuple(id))
+        else:
+            data = str(tuple(id)).replace("(", "").replace(")", "")
+            mycursor.execute(
+                "SELECT tanaman.*  FROM tanaman WHERE id_tumbuhan IN (%s) ORDER BY field(id_tumbuhan,{})".format(
+                    data) % format_strings,
+                (tuple(id)))
         myresult = mycursor.fetchall()
         return myresult
     except Error as e:

@@ -51,9 +51,21 @@ def sortSecond(val):
     return val[0]
 
 
+@app.route('/api/all', methods=['POST'])
+def get_all():
+    hasilnya = model.all()
+    if hasilnya:
+        return {'code': 200, 'msg': 'success', 'total': len(hasilnya),
+                'data': hasilnya}, 200
+    else:
+        return {'code': 400, 'msg': 'Data Tidak Ditemukan'}, 200
+
+
+
 @app.route('/api/kmp', methods=['POST'])
 def get_data():
     # specialcaracter cleaning
+    t1_start = process_time()
     req = request.get_json()
     query = req['query']
     filter = req['filter']
@@ -66,20 +78,23 @@ def get_data():
     stop = stopword.remove(output)
     # tokenize
     tokens = nltk.tokenize.word_tokenize(stop)
+    data = model.persamaan(tokens)
+    for index in data:
+        splits = index[0].split(",")
+        for split in splits:
+            tokens.append(split)
     # kmp
     kmp = KMP()
     data = []
-
     profile = model.alldata()
-    if filter == 2:
+    if filter == "2":
         profile = model.alldataNama()
-    if filter == 3:
+    if filter == "3":
         profile = model.alldataZat()
 
     for index, it in profile:
-        t0 = nltk.re.sub('[^A-Za-z/ ]', '', stemmer.stem(it)).replace("daun", "").replace("obat", "").replace(
-            "sakit",
-            "")
+        t0 = nltk.re.sub('[^A-Za-z/ ]', '', stemmer.stem(it)).replace("daun", "").replace("obat", "").replace("sakit",
+                                                                                                              "")
         t1 = stopword.remove(t0)
         counts = 0
         for i in tokens:
@@ -94,12 +109,13 @@ def get_data():
         array_data.append(key[1])
     # Get Match Data from DB
     hasilnya = model.byid(array_data)
+    t1_stop = process_time()
     if hasilnya:
-        return {'code': 200, 'msg': 'success', 'total': len(hasilnya), 'key': json.dumps(tokens),
+        return {'code': 200, 'msg': 'success', 'total': len(hasilnya), 'key': t1_stop - t1_start,
                 'data': hasilnya}, 200
     else:
         return {'code': 400, 'msg': 'Data Tidak Ditemukan'}, 200
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', threaded=True, port=5004)
+    app.run(debug=True, host='172.20.10.14', threaded=True, port=5004)
