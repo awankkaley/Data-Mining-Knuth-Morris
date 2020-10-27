@@ -118,4 +118,4 @@ def get_data():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='172.20.10.14', threaded=True, port=5004)
+    app.run(debug=True, host='0.0.0.0', threaded=True, port=5004)
