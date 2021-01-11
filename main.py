@@ -15,10 +15,9 @@ stemmer = factory.create_stemmer()
 app = Flask(__name__)
 
 
-# kmp class process
+# CLASS PERHITUNGAN KMP
 class KMP:
     def partial(self, pattern):
-        """ Calculate partial match table: String -> [Int]"""
         ret = [0]
 
         for i in range(1, len(pattern)):
@@ -29,10 +28,6 @@ class KMP:
         return ret
 
     def search(self, T, P):
-        """
-        KMP search main algorithm: String -> String -> [Int]
-        Return all the matching position of pattern string P in T
-        """
         partial, ret, j = self.partial(P), [], 0
 
         for i in range(len(T)):
@@ -51,6 +46,7 @@ def sortSecond(val):
     return val[0]
 
 
+# GET ALL DATA
 @app.route('/api/all', methods=['POST'])
 def get_all():
     hasilnya = model.all()
@@ -61,29 +57,32 @@ def get_all():
         return {'code': 400, 'msg': 'Data Tidak Ditemukan'}, 200
 
 
-
+# KMP SEARCH
 @app.route('/api/kmp', methods=['POST'])
 def get_data():
-    # specialcaracter cleaning
+    # MENGHILANGKAN SPESIAL KARAKTER
     t1_start = process_time()
     req = request.get_json()
     query = req['query']
     filter = req['filter']
     sentence = nltk.re.sub('[^A-Za-z/ ]', '', query)
-    # stem
+    # CASE FOLDING
     output = stemmer.stem(sentence)
-    # stopword
+    # STOPWORD
     factory = StopWordRemoverFactory()
     stopword = factory.create_stop_word_remover()
     stop = stopword.remove(output)
-    # tokenize
+    # TOKENIZE
     tokens = nltk.tokenize.word_tokenize(stop)
     data = model.persamaan(tokens)
+    # COSINE
     for index in data:
         splits = index[0].split(",")
         for split in splits:
             tokens.append(split)
-    # kmp
+
+    print(tokens)
+    # GET KMP CLASS
     kmp = KMP()
     data = []
     profile = model.alldata()
@@ -91,10 +90,21 @@ def get_data():
         profile = model.alldataNama()
     if filter == "3":
         profile = model.alldataZat()
-
+    # FILTERING
     for index, it in profile:
-        t0 = nltk.re.sub('[^A-Za-z/ ]', '', stemmer.stem(it)).replace("daun", "").replace("obat", "").replace("sakit",
-                                                                                                              "")
+        t0 = nltk.re.sub('[^A-Za-z/ ]', '',
+                         stemmer.stem(it)
+                         .replace("obat", "")
+                         .replace("sakit", "")
+                         .replace("buah", "")
+                         .replace("kulit", "")
+                         .replace("batang", "")
+                         .replace("kayu", "")
+                         .replace("kelopak", "")
+                         .replace("bunga", "")
+                         .replace("daun", "")
+                         .replace("tangkai", "")
+                         .replace("akar", ""))
         t1 = stopword.remove(t0)
         counts = 0
         for i in tokens:
