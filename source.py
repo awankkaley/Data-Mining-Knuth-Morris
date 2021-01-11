@@ -5,9 +5,9 @@ from mysql.connector import Error
 
 def alldata():
     mydb = mysql.connector.connect(
-        host="localhost",
+        host="45.80.181.198",
         user="root",
-        password="",
+        password="kmzway87saa",
         database="erika"
     )
     mycursor = mydb.cursor()
@@ -23,9 +23,9 @@ def alldata():
 
 def all():
     mydb = mysql.connector.connect(
-        host="localhost",
+        host="45.80.181.198",
         user="root",
-        password="",
+        password="kmzway87saa",
         database="erika"
     )
     mycursor = mydb.cursor(dictionary=True)
@@ -39,9 +39,9 @@ def all():
 
 def persamaan(var):
     mydb = mysql.connector.connect(
-        host="localhost",
+        host="45.80.181.198",
         user="root",
-        password="",
+        password="kmzway87saa",
         database="erika"
     )
     mycursor = mydb.cursor()
@@ -56,9 +56,9 @@ def persamaan(var):
 
 def alldataZat():
     mydb = mysql.connector.connect(
-        host="localhost",
+        host="45.80.181.198",
         user="root",
-        password="",
+        password="kmzway87saa",
         database="erika"
     )
     mycursor = mydb.cursor()
@@ -73,9 +73,9 @@ def alldataZat():
 def byid(id):
     try:
         mydb = mysql.connector.connect(
-            host="localhost",
+            host="45.80.181.198",
             user="root",
-            password="",
+            password="kmzway87saa",
             database="erika"
         )
         format_strings = ','.join(['%s'] * len(id))
