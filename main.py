@@ -2,11 +2,21 @@
 import json
 from flask import Flask, request
 import nltk
-nltk.download('punkt')
+import ssl
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 from Sastrawi.StopWordRemover.StopWordRemoverFactory import StopWordRemoverFactory
 import source as model
 from time import process_time
+try:
+    _create_unverified_https_context = ssl._create_unverified_context
+except AttributeError:
+    pass
+else:
+    ssl._create_default_https_context = _create_unverified_https_context
+
+nltk.download('punkt')
+
+
 
 # create stemmer
 factory = StemmerFactory()
