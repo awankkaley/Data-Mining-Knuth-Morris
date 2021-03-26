@@ -2,7 +2,7 @@
 import json
 from flask import Flask, request
 import nltk
-# nltk.download()
+nltk.download('punkt')
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 from Sastrawi.StopWordRemover.StopWordRemoverFactory import StopWordRemoverFactory
 import source as model
@@ -44,6 +44,12 @@ class KMP:
 # sort match value
 def sortSecond(val):
     return val[0]
+
+
+# GET ALL DATA
+@app.route('/hello', methods=['GET'])
+def hello():
+    return {'code': 200, 'msg': 'success'}, 200
 
 
 # GET ALL DATA
@@ -128,4 +134,4 @@ def get_data():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', threaded=True, port=5004)
+    app.run(debug=True, host='0.0.0.0', threaded=True, port=3000)

@@ -5,10 +5,10 @@ from mysql.connector import Error
 
 def alldata():
     mydb = mysql.connector.connect(
-        host="45.80.181.198",
-        user="root",
-        password="kmzway87saa",
-        database="erika"
+        host="35.239.205.110",
+        user="admintanaman",
+        password="123qwe!@#",
+        database="tanaman"
     )
     mycursor = mydb.cursor()
 
@@ -23,10 +23,10 @@ def alldata():
 
 def all():
     mydb = mysql.connector.connect(
-        host="45.80.181.198",
-        user="root",
-        password="kmzway87saa",
-        database="erika"
+        host="35.239.205.110",
+        user="admintanaman",
+        password="123qwe!@#",
+        database="tanaman"
     )
     mycursor = mydb.cursor(dictionary=True)
 
@@ -39,10 +39,10 @@ def all():
 
 def persamaan(var):
     mydb = mysql.connector.connect(
-        host="45.80.181.198",
-        user="root",
-        password="kmzway87saa",
-        database="erika"
+        host="35.239.205.110",
+        user="admintanaman",
+        password="123qwe!@#",
+        database="tanaman"
     )
     mycursor = mydb.cursor()
     format_strings = ','.join(['%s'] * len(var))
@@ -56,10 +56,10 @@ def persamaan(var):
 
 def alldataZat():
     mydb = mysql.connector.connect(
-        host="45.80.181.198",
-        user="root",
-        password="kmzway87saa",
-        database="erika"
+        host="35.239.205.110",
+        user="admintanaman",
+        password="123qwe!@#",
+        database="tanaman"
     )
     mycursor = mydb.cursor()
 
@@ -73,10 +73,10 @@ def alldataZat():
 def byid(id):
     try:
         mydb = mysql.connector.connect(
-            host="45.80.181.198",
-            user="root",
-            password="kmzway87saa",
-            database="erika"
+            host="35.239.205.110",
+            user="admintanaman",
+            password="123qwe!@#",
+            database="tanaman"
         )
         format_strings = ','.join(['%s'] * len(id))
         mycursor = mydb.cursor(dictionary=True)
