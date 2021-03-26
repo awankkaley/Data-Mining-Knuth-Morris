@@ -97,7 +97,6 @@ def get_data():
         for split in splits:
             tokens.append(split)
 
-    print(tokens)
     # GET KMP CLASS
     kmp = KMP()
     data = []
@@ -129,7 +128,7 @@ def get_data():
         if counts != 0:
             data.append((counts, index))
     data.sort(key=sortSecond, reverse=True)
-    print(data)
+
     array_data = []
     for key in data:
         array_data.append(key[1])
