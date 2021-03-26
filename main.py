@@ -2,7 +2,7 @@
 import json
 from flask import Flask, request
 import nltk
-# nltk.download('punkt')
+nltk.download('punkt')
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 from Sastrawi.StopWordRemover.StopWordRemoverFactory import StopWordRemoverFactory
 import source as model
